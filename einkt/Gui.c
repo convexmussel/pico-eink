@@ -15,13 +15,33 @@ void initializeDisplay(uint16_t height, uint16_t width)
     display.width = width;
 }
 
-void drawString(const char* text, uint16_t x, uint16_t y, const font* font, bool direction);
+void drawString(const char* text, uint16_t x, uint16_t y, const font* font, bool direction, uint8_t spacing)
+{
+    uint16_t offset;
+    uint8_t charIndex;
+    //check if character is kown in font
+    for(uint8_t i = 0; i < font->lenght; i++)
+    {
+        if(*text == font->lookup[i])
+        {
+            charIndex = i;
+        }
+    }
+
+    //check if the file has ended
+    while(*text != '\0')
+    {
+        direction == vertical ? drawChar(text, x, y + offset, font, direction, black) : drawChar(text, x + offset, y, font, direction, black);
+        offset += font->width[charIndex] + spacing;
+        text++;
+    }
+}
 
 void drawChar(const char *character, uint16_t x, uint16_t y, const font* font, uint8_t direction, uint8_t color)
 {
     uint8_t charIndex;
     const char *bitmap;
-    uint8_t x_offset, y_offset;
+    uint16_t x_offset, y_offset;
     //check if character is kown in font
     for(uint8_t i = 0; i < font->lenght; i++)
     {

@@ -21,6 +21,7 @@
     "cortex-debug.openocdPath": "C:/Users/jarno/Dropbox/pico/open_ocd/openocd/src/openocd.exe",
     "files.associations": {
         "spi.h": "c",
-        "epd_test.h": "c"
+        "epd_test.h": "c",
+        "stdlib.h": "c"
     }
 }
