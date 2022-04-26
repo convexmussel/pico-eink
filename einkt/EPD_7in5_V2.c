@@ -189,8 +189,7 @@ static void EPD_WaitUntilIdle(void)
 	do{
 		EPD_SendCommand(0x71);
 		DEV_Delay_ms(20);  
-	}while(!(DEV_Digital_Read(EPD_BUSY_PIN)));   
-	DEV_Delay_ms(20);      
+	}while(!(DEV_Digital_Read(EPD_BUSY_PIN)));        
     Debug("e-Paper busy release\r\n");
 }
 
@@ -202,7 +201,7 @@ parameter:
 void EPD_7IN5_V2_TurnOnDisplay(void)
 {
     EPD_SendCommand(0x12);			//DISPLAY REFRESH
-    DEV_Delay_ms(200);	        //!!!The delay here is necessary, 200uS at least!!!
+    DEV_Delay_ms(100);	        //!!!The delay here is necessary, 200uS at least!!!
     EPD_WaitUntilIdle();
 }
 
@@ -221,7 +220,6 @@ UBYTE EPD_7IN5_V2_Init(void)
     EPD_SendData(0x3f);		//VDL=-15V
 	
     EPD_SendCommand(0x04); //POWER ON
-    DEV_Delay_ms(100);
     EPD_WaitUntilIdle();
 
     EPD_SendCommand(0X00);			//PANNEL SETTING
@@ -280,6 +278,66 @@ UBYTE EPD_7IN5_V2_Init(void)
     return 0;
 }
 
+void EPD_SET_LUT_SLOW()
+{
+    int count = 0;
+    
+    EPD_SendCommand(0x20);
+    for(count = 0; count < 44; count++) {
+        EPD_SendData(lut_vcom0[count]);
+    }
+    
+    EPD_SendCommand(0x21);                      //ww --
+    for(count = 0; count < 42; count++) {
+        EPD_SendData(lut_ww[count]);
+    }   
+    
+    EPD_SendCommand(0x22);                      //bw r
+    for(count = 0; count < 42; count++) {
+        EPD_SendData(lut_bw[count]);
+    } 
+
+    EPD_SendCommand(0x23);                      //wb w
+    for(count = 0; count < 42; count++) {
+        EPD_SendData(lut_wb[count]);
+    } 
+
+    EPD_SendCommand(0x24);                      //bb b
+    for(count = 0; count < 42; count++) {
+        EPD_SendData(lut_bb[count]);
+    } 
+}
+
+void EPD_SET_LUT_FAST()
+{
+
+    int count = 0;
+
+    EPD_SendCommand(0x20);
+    for(count = 0; count < 44; count++) {
+        EPD_SendData(lut_vcom0_quick[count]);
+    }
+    
+    EPD_SendCommand(0x21);                      //ww --
+    for(count = 0; count < 42; count++) {
+        EPD_SendData(lut_ww_quick[count]);
+    }   
+    
+    EPD_SendCommand(0x22);                      //bw r
+    for(count = 0; count < 42; count++) {
+        EPD_SendData(lut_bw_quick[count]);
+    } 
+
+    EPD_SendCommand(0x23);                      //wb w
+    for(count = 0; count < 42; count++) {
+        EPD_SendData(lut_wb_quick[count]);
+    } 
+
+    EPD_SendCommand(0x24);                      //bb b
+    for(count = 0; count < 42; count++) {
+        EPD_SendData(lut_bb_quick[count]);
+    } 
+}
 /******************************************************************************
 function :	Clear screen
 parameter:
@@ -334,6 +392,7 @@ void EPD_7IN5_V2_Display(const UBYTE *blackimage)
     for (UDOUBLE j = 0; j < Height; j++) {
         for (UDOUBLE i = 0; i < Width; i++) {
             EPD_SendData(blackimage[i + j * Width]);
+    
         }
     }
     EPD_SendCommand(0x13);
@@ -342,6 +401,7 @@ void EPD_7IN5_V2_Display(const UBYTE *blackimage)
             EPD_SendData(~blackimage[i + j * Width]);
         }
     }
+
     EPD_7IN5_V2_TurnOnDisplay();
 }
 

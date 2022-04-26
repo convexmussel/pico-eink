@@ -12,4 +12,5 @@ typedef struct Display
 
 enum colors{black = 0, white = 1};
 enum direction{vertical, horizontal};
+enum ScreenRotation{right = 90, left = 270, flip = 180, normal = 0};
 #endif

@@ -4,9 +4,11 @@
 #include "DS1307.h"
 #include "Gui.h"
 #include "image.h"
-#include "Open_Sans_Regular_32.h"
-
+#include "gfxfont.h"
+#include "times_ro32pt7b.h"
 enum direction directionText;
+enum ScreenRotation ScreenRotation;
+
 int main(void)
 {
     struct sensorData bme = {};
@@ -18,7 +20,7 @@ int main(void)
 	//while(1) {
         //DEV_Delay_ms(500);
 		//update(test);
-        //test += 1;
+        test += 1;
         //setupBME();
         //updateBME(&bme);
         //printf("%f\n",bme.pressure);
@@ -29,10 +31,49 @@ int main(void)
 
 	//}
     printf("test\n");
-    initializeDisplay(800, 480);
-    char car = '1';
-    drawChar(&car,0,0,&Open_Sans_Regular_32, vertical, black);
+    initializeDisplay(480, 800);
+    char car = 'a';
+    paintSolid(white);
+    show(1);
+    uint16_t number = 100;
+    test = 0; 
+    uint16_t x1, x2, y1, y2, x3, y3;
+    x1 = 20;
+    x2 = 335;
+    y1 = 300;
+    y2 = 467;
 
+    x3 = 300;
+    y3 = 200;
+    while(true)
+    {
+        printf("test");
+    drawString("Donderdag", x1,y1, &times_ro32pt7b, horizontal,right);
+    drawString("VochtigheiD", x2,y2,&times_ro32pt7b,vertical,right);
+    drawString("Datum", x3, y3, &times_ro32pt7b, horizontal, right);
+    show(1);
+    }
+
+
+    // while (true)
+    // {
+    //   drawString("Hallo Maaike is dit cool?", 0,400, times_ro32pt7b, vertical,white);
+    //   for(int i =0; i < 800; i++)
+    //   {
+    //     setPixel(black,i,200);
+    //   }
+
+    //   drawNumber(number,0,100,times_ro32pt7b,vertical,white);
+    //   number++;
+    //   test % 5 == 0 ? show(false): show(true);
+    //   paintSolid(white);
+    //   test+=1;
+    // }
+    
+
+
+
+    
 	// EPD_2in9_V2_test();
     // EPD_2in9bc_test();
     // EPD_2in9b_V3_test();

@@ -45,5 +45,6 @@ void EPD_7IN5_V2_Clear(void);
 void EPD_7IN5_V2_ClearBlack(void);
 void EPD_7IN5_V2_Display(const UBYTE *blackimage);
 void EPD_7IN5_V2_Sleep(void);
-
+void EPD_SET_LUT_SLOW();
+void EPD_SET_LUT_FAST();
 #endif
