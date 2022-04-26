@@ -6,6 +6,7 @@
 #include "image.h"
 #include "gfxfont.h"
 #include "times_ro32pt7b.h"
+#include "times_ro28pt7b.h"
 enum direction directionText;
 enum ScreenRotation ScreenRotation;
 
@@ -22,7 +23,7 @@ int main(void)
 		//update(test);
         test += 1;
         //setupBME();
-        //updateBME(&bme);
+        
         //printf("%f\n",bme.pressure);
        // printf("%f\n",bme.humidity);
         //printf("%f\n",bme.gas);
@@ -37,20 +38,40 @@ int main(void)
     show(1);
     uint16_t number = 100;
     test = 0; 
-    uint16_t x1, x2, y1, y2, x3, y3;
+    uint16_t x1, x2, y1, y2, x3, y3,x4,y4,x5,y5,x6,y6;
     x1 = 20;
-    x2 = 335;
+    x2 = 337;
     y1 = 300;
-    y2 = 467;
+    y2 = 450;
 
-    x3 = 300;
-    y3 = 200;
+    x3 = 294;
+    y3 = 196;
+
+    x4= 520;
+    y4 = 200;
+    x5 = 433;
+    y5=445;
+
+    x6 = 433;
+    y6= 433;
+    
+    char *hello_world = (char*)malloc(15 * sizeof(char));
+    char *temp = (char*)malloc(20 * sizeof(char));
+    // Prints "Hello world!" on hello_world
+    
     while(true)
     {
-        printf("test");
-    drawString("Donderdag", x1,y1, &times_ro32pt7b, horizontal,right);
-    drawString("VochtigheiD", x2,y2,&times_ro32pt7b,vertical,right);
-    drawString("Datum", x3, y3, &times_ro32pt7b, horizontal, right);
+        updateBME(&bme);
+    sprintf(hello_world, "vochtigheid: %.0f%%", bme.humidity);
+    sprintf(temp, "temperatuur: %.1f", bme.temp);
+    drawString("donderdag", x1,y1, &times_ro32pt7b, horizontal,right);
+    drawString(hello_world, x2,y2,&times_ro32pt7b,vertical,right);
+    drawString("datum", x3, y3, &times_ro32pt7b, horizontal, right);
+    drawString("13 maart\n2021",x4, y4, &times_ro28pt7b, vertical, right);
+    drawString(temp,x5,y5,&times_ro32pt7b,vertical,right);
+    drawString("tijd:",x6,y6, &times_ro32pt7b, horizontal, right);
+
+
     show(1);
     }
 

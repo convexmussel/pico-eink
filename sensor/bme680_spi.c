@@ -312,11 +312,11 @@ void updateBME(struct sensorData *data)
 {
     uint32_t humidity, pressure, temperature, gas;
     float test, banana, carrot;
-    setRunGas(true);
-    enableHeaterCurrent();
-    setHeaterSetProfile(1);
-    setGasWaitTime(37, 1, 1);
-    setTargetHeaterResitance(1, 250, 19);
+    // setRunGas(true);
+    // enableHeaterCurrent();
+    // setHeaterSetProfile(1);
+    // setGasWaitTime(37, 1, 1);
+    // setTargetHeaterResitance(1, 250, 19);
     
     read_registers(0x74, &reg, 1);
     write_register(0x74, reg + 1);

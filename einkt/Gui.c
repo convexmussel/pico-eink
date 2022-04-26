@@ -38,12 +38,23 @@ void drawNumber(const uint16_t number,  uint16_t x, uint16_t y, const GFXfont *f
 void drawString(const char* text, uint16_t x, uint16_t y, const GFXfont *font, bool direction, uint16_t textRotation)
 {
     uint16_t advanceX, advancey;
-    int8_t x_distance, y_distance;
+    int x_distance, y_distance;
+    GFXglyph *glyph;
     while(*text != '\0')
     {
+        if(*text == '\n')
+        {
+            GFXglyph *glyph = &font->glyph['A' - font->first];
+            advanceX = font->yAdvance + abs(glyph->yOffset);
+            printf("%d\n", glyph->yOffset);
+            advancey =0;
+            text++;
+            continue;
+        }
         GFXglyph *glyph = &font->glyph[*text - font->first];
         x_distance = glyph->xOffset;
         y_distance = abs(glyph->yOffset);
+        
         
         if(direction == horizontal)
         {
@@ -68,7 +79,7 @@ void drawString(const char* text, uint16_t x, uint16_t y, const GFXfont *font, b
             }
             else if (textRotation = right)
             {
-                drawChar(text, x - y_distance,y-advancey-x_distance, font,horizontal, textRotation);
+                drawChar(text, x - y_distance + advanceX,y-advancey-x_distance, font,horizontal, textRotation);
                 advancey += glyph->xAdvance;
             }
 
